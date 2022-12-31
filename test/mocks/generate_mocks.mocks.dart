@@ -3,11 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
+import 'dart:typed_data' as _i7;
 
-import 'package:connectivity_plus/connectivity_plus.dart' as _i2;
+import 'package:connectivity_plus/connectivity_plus.dart' as _i3;
 import 'package:connectivity_plus_platform_interface/connectivity_plus_platform_interface.dart'
-    as _i4;
+    as _i5;
+import 'package:dio/src/adapter.dart' as _i2;
+import 'package:dio/src/options.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -21,27 +24,83 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeResponseBody_0 extends _i1.SmartFake implements _i2.ResponseBody {
+  _FakeResponseBody_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [Connectivity].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockConnectivity extends _i1.Mock implements _i2.Connectivity {
+class MockConnectivity extends _i1.Mock implements _i3.Connectivity {
   MockConnectivity() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Stream<_i4.ConnectivityResult> get onConnectivityChanged =>
+  _i4.Stream<_i5.ConnectivityResult> get onConnectivityChanged =>
       (super.noSuchMethod(
         Invocation.getter(#onConnectivityChanged),
-        returnValue: _i3.Stream<_i4.ConnectivityResult>.empty(),
-      ) as _i3.Stream<_i4.ConnectivityResult>);
+        returnValue: _i4.Stream<_i5.ConnectivityResult>.empty(),
+      ) as _i4.Stream<_i5.ConnectivityResult>);
   @override
-  _i3.Future<_i4.ConnectivityResult> checkConnectivity() => (super.noSuchMethod(
+  _i4.Future<_i5.ConnectivityResult> checkConnectivity() => (super.noSuchMethod(
         Invocation.method(
           #checkConnectivity,
           [],
         ),
-        returnValue: _i3.Future<_i4.ConnectivityResult>.value(
-            _i4.ConnectivityResult.bluetooth),
-      ) as _i3.Future<_i4.ConnectivityResult>);
+        returnValue: _i4.Future<_i5.ConnectivityResult>.value(
+            _i5.ConnectivityResult.bluetooth),
+      ) as _i4.Future<_i5.ConnectivityResult>);
+}
+
+/// A class which mocks [HttpClientAdapter].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHttpClientAdapter extends _i1.Mock implements _i2.HttpClientAdapter {
+  MockHttpClientAdapter() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.ResponseBody> fetch(
+    _i6.RequestOptions? options,
+    _i4.Stream<_i7.Uint8List>? requestStream,
+    _i4.Future<dynamic>? cancelFuture,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetch,
+          [
+            options,
+            requestStream,
+            cancelFuture,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.ResponseBody>.value(_FakeResponseBody_0(
+          this,
+          Invocation.method(
+            #fetch,
+            [
+              options,
+              requestStream,
+              cancelFuture,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.ResponseBody>);
+  @override
+  void close({bool? force = false}) => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+          {#force: force},
+        ),
+        returnValueForMissingStub: null,
+      );
 }
