@@ -1,7 +1,7 @@
 import 'package:flutter_clean_arch/domain/entities/post.dart';
 
 class PostModel extends Post {
-  PostModel({
+  const PostModel({
     required int userId,
     required int id,
     required String title,

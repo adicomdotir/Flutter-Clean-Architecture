@@ -3,29 +3,37 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
-import 'dart:typed_data' as _i9;
+import 'dart:async' as _i7;
+import 'dart:typed_data' as _i10;
 
-import 'package:connectivity_plus/connectivity_plus.dart' as _i5;
+import 'package:connectivity_plus/connectivity_plus.dart' as _i6;
 import 'package:connectivity_plus_platform_interface/connectivity_plus_platform_interface.dart'
-    as _i7;
+    as _i8;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:dio/dio.dart' as _i2;
-import 'package:dio/src/options.dart' as _i8;
-import 'package:flutter_clean_arch/core/error/failure.dart' as _i15;
-import 'package:flutter_clean_arch/core/network/network_info.dart' as _i11;
-import 'package:flutter_clean_arch/core/no_params.dart' as _i18;
+import 'package:dio/src/options.dart' as _i9;
+import 'package:flutter_clean_arch/core/error/failure.dart' as _i18;
+import 'package:flutter_clean_arch/core/network/network_info.dart' as _i12;
+import 'package:flutter_clean_arch/core/no_params.dart' as _i22;
+import 'package:flutter_clean_arch/data/data_sources/post_remote_data_source.dart'
+    as _i15;
 import 'package:flutter_clean_arch/data/data_sources/user_local_data_source.dart'
-    as _i14;
+    as _i17;
 import 'package:flutter_clean_arch/data/data_sources/user_remote_data_source.dart'
-    as _i12;
-import 'package:flutter_clean_arch/data/models/user_model.dart' as _i13;
-import 'package:flutter_clean_arch/domain/entities/user.dart' as _i16;
+    as _i13;
+import 'package:flutter_clean_arch/data/models/post_model.dart' as _i16;
+import 'package:flutter_clean_arch/data/models/user_model.dart' as _i14;
+import 'package:flutter_clean_arch/domain/entities/post.dart' as _i20;
+import 'package:flutter_clean_arch/domain/entities/user.dart' as _i19;
+import 'package:flutter_clean_arch/domain/repositories/post_repository.dart'
+    as _i5;
 import 'package:flutter_clean_arch/domain/repositories/user_repository.dart'
     as _i4;
-import 'package:flutter_clean_arch/domain/use_cases/get_users.dart' as _i17;
+import 'package:flutter_clean_arch/domain/use_cases/get_user_posts.dart'
+    as _i23;
+import 'package:flutter_clean_arch/domain/use_cases/get_users.dart' as _i21;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:shared_preferences/shared_preferences.dart' as _i10;
+import 'package:shared_preferences/shared_preferences.dart' as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -69,29 +77,40 @@ class _FakeUserRepository_2 extends _i1.SmartFake
         );
 }
 
+class _FakePostRepository_3 extends _i1.SmartFake
+    implements _i5.PostRepository {
+  _FakePostRepository_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [Connectivity].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockConnectivity extends _i1.Mock implements _i5.Connectivity {
+class MockConnectivity extends _i1.Mock implements _i6.Connectivity {
   MockConnectivity() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Stream<_i7.ConnectivityResult> get onConnectivityChanged =>
+  _i7.Stream<_i8.ConnectivityResult> get onConnectivityChanged =>
       (super.noSuchMethod(
         Invocation.getter(#onConnectivityChanged),
-        returnValue: _i6.Stream<_i7.ConnectivityResult>.empty(),
-      ) as _i6.Stream<_i7.ConnectivityResult>);
+        returnValue: _i7.Stream<_i8.ConnectivityResult>.empty(),
+      ) as _i7.Stream<_i8.ConnectivityResult>);
   @override
-  _i6.Future<_i7.ConnectivityResult> checkConnectivity() => (super.noSuchMethod(
+  _i7.Future<_i8.ConnectivityResult> checkConnectivity() => (super.noSuchMethod(
         Invocation.method(
           #checkConnectivity,
           [],
         ),
-        returnValue: _i6.Future<_i7.ConnectivityResult>.value(
-            _i7.ConnectivityResult.bluetooth),
-      ) as _i6.Future<_i7.ConnectivityResult>);
+        returnValue: _i7.Future<_i8.ConnectivityResult>.value(
+            _i8.ConnectivityResult.bluetooth),
+      ) as _i7.Future<_i8.ConnectivityResult>);
 }
 
 /// A class which mocks [HttpClientAdapter].
@@ -103,10 +122,10 @@ class MockHttpClientAdapter extends _i1.Mock implements _i2.HttpClientAdapter {
   }
 
   @override
-  _i6.Future<_i2.ResponseBody> fetch(
-    _i8.RequestOptions? options,
-    _i6.Stream<_i9.Uint8List>? requestStream,
-    _i6.Future<dynamic>? cancelFuture,
+  _i7.Future<_i2.ResponseBody> fetch(
+    _i9.RequestOptions? options,
+    _i7.Stream<_i10.Uint8List>? requestStream,
+    _i7.Future<dynamic>? cancelFuture,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -117,7 +136,7 @@ class MockHttpClientAdapter extends _i1.Mock implements _i2.HttpClientAdapter {
             cancelFuture,
           ],
         ),
-        returnValue: _i6.Future<_i2.ResponseBody>.value(_FakeResponseBody_0(
+        returnValue: _i7.Future<_i2.ResponseBody>.value(_FakeResponseBody_0(
           this,
           Invocation.method(
             #fetch,
@@ -128,7 +147,7 @@ class MockHttpClientAdapter extends _i1.Mock implements _i2.HttpClientAdapter {
             ],
           ),
         )),
-      ) as _i6.Future<_i2.ResponseBody>);
+      ) as _i7.Future<_i2.ResponseBody>);
   @override
   void close({bool? force = false}) => super.noSuchMethod(
         Invocation.method(
@@ -143,7 +162,7 @@ class MockHttpClientAdapter extends _i1.Mock implements _i2.HttpClientAdapter {
 /// A class which mocks [SharedPreferences].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
+class MockSharedPreferences extends _i1.Mock implements _i11.SharedPreferences {
   MockSharedPreferences() {
     _i1.throwOnMissingStub(this);
   }
@@ -196,7 +215,7 @@ class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
         [key],
       )) as List<String>?);
   @override
-  _i6.Future<bool> setBool(
+  _i7.Future<bool> setBool(
     String? key,
     bool? value,
   ) =>
@@ -208,10 +227,10 @@ class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setInt(
+  _i7.Future<bool> setInt(
     String? key,
     int? value,
   ) =>
@@ -223,10 +242,10 @@ class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setDouble(
+  _i7.Future<bool> setDouble(
     String? key,
     double? value,
   ) =>
@@ -238,10 +257,10 @@ class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setString(
+  _i7.Future<bool> setString(
     String? key,
     String? value,
   ) =>
@@ -253,10 +272,10 @@ class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> setStringList(
+  _i7.Future<bool> setStringList(
     String? key,
     List<String>? value,
   ) =>
@@ -268,104 +287,124 @@ class MockSharedPreferences extends _i1.Mock implements _i10.SharedPreferences {
             value,
           ],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> remove(String? key) => (super.noSuchMethod(
+  _i7.Future<bool> remove(String? key) => (super.noSuchMethod(
         Invocation.method(
           #remove,
           [key],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> commit() => (super.noSuchMethod(
+  _i7.Future<bool> commit() => (super.noSuchMethod(
         Invocation.method(
           #commit,
           [],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<bool> clear() => (super.noSuchMethod(
+  _i7.Future<bool> clear() => (super.noSuchMethod(
         Invocation.method(
           #clear,
           [],
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
   @override
-  _i6.Future<void> reload() => (super.noSuchMethod(
+  _i7.Future<void> reload() => (super.noSuchMethod(
         Invocation.method(
           #reload,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i11.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i12.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Future<bool> get isConnected => (super.noSuchMethod(
+  _i7.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 }
 
 /// A class which mocks [UserRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUserRemoteDataSource extends _i1.Mock
-    implements _i12.UserRemoteDataSource {
+    implements _i13.UserRemoteDataSource {
   MockUserRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Future<List<_i13.UserModel>> getUsers() => (super.noSuchMethod(
+  _i7.Future<List<_i14.UserModel>> getUsers() => (super.noSuchMethod(
         Invocation.method(
           #getUsers,
           [],
         ),
-        returnValue: _i6.Future<List<_i13.UserModel>>.value(<_i13.UserModel>[]),
-      ) as _i6.Future<List<_i13.UserModel>>);
+        returnValue: _i7.Future<List<_i14.UserModel>>.value(<_i14.UserModel>[]),
+      ) as _i7.Future<List<_i14.UserModel>>);
+}
+
+/// A class which mocks [PostRemoteDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPostRemoteDataSource extends _i1.Mock
+    implements _i15.PostRemoteDataSource {
+  MockPostRemoteDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.Future<List<_i16.PostModel>> getUserPosts(int? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUserPosts,
+          [userId],
+        ),
+        returnValue: _i7.Future<List<_i16.PostModel>>.value(<_i16.PostModel>[]),
+      ) as _i7.Future<List<_i16.PostModel>>);
 }
 
 /// A class which mocks [UserLocalDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUserLocalDataSource extends _i1.Mock
-    implements _i14.UserLocalDataSource {
+    implements _i17.UserLocalDataSource {
   MockUserLocalDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Future<List<_i13.UserModel>> getLastUsers() => (super.noSuchMethod(
+  _i7.Future<List<_i14.UserModel>> getLastUsers() => (super.noSuchMethod(
         Invocation.method(
           #getLastUsers,
           [],
         ),
-        returnValue: _i6.Future<List<_i13.UserModel>>.value(<_i13.UserModel>[]),
-      ) as _i6.Future<List<_i13.UserModel>>);
+        returnValue: _i7.Future<List<_i14.UserModel>>.value(<_i14.UserModel>[]),
+      ) as _i7.Future<List<_i14.UserModel>>);
   @override
-  _i6.Future<void> cacheUsers(List<_i13.UserModel>? usersToCache) =>
+  _i7.Future<void> cacheUsers(List<_i14.UserModel>? usersToCache) =>
       (super.noSuchMethod(
         Invocation.method(
           #cacheUsers,
           [usersToCache],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [UserRepository].
@@ -377,28 +416,56 @@ class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
   }
 
   @override
-  _i6.Future<_i3.Either<_i15.Failure, List<_i16.User>>> getUsers() =>
+  _i7.Future<_i3.Either<_i18.Failure, List<_i19.User>>> getUsers() =>
       (super.noSuchMethod(
         Invocation.method(
           #getUsers,
           [],
         ),
         returnValue:
-            _i6.Future<_i3.Either<_i15.Failure, List<_i16.User>>>.value(
-                _FakeEither_1<_i15.Failure, List<_i16.User>>(
+            _i7.Future<_i3.Either<_i18.Failure, List<_i19.User>>>.value(
+                _FakeEither_1<_i18.Failure, List<_i19.User>>(
           this,
           Invocation.method(
             #getUsers,
             [],
           ),
         )),
-      ) as _i6.Future<_i3.Either<_i15.Failure, List<_i16.User>>>);
+      ) as _i7.Future<_i3.Either<_i18.Failure, List<_i19.User>>>);
+}
+
+/// A class which mocks [PostRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPostRepository extends _i1.Mock implements _i5.PostRepository {
+  MockPostRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.Future<_i3.Either<_i18.Failure, List<_i20.Post>>> getUserPosts(
+          int? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUserPosts,
+          [userId],
+        ),
+        returnValue:
+            _i7.Future<_i3.Either<_i18.Failure, List<_i20.Post>>>.value(
+                _FakeEither_1<_i18.Failure, List<_i20.Post>>(
+          this,
+          Invocation.method(
+            #getUserPosts,
+            [userId],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i18.Failure, List<_i20.Post>>>);
 }
 
 /// A class which mocks [GetUsers].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetUsers extends _i1.Mock implements _i17.GetUsers {
+class MockGetUsers extends _i1.Mock implements _i21.GetUsers {
   MockGetUsers() {
     _i1.throwOnMissingStub(this);
   }
@@ -412,21 +479,56 @@ class MockGetUsers extends _i1.Mock implements _i17.GetUsers {
         ),
       ) as _i4.UserRepository);
   @override
-  _i6.Future<_i3.Either<_i15.Failure, List<_i16.User>>> call(
-          _i18.NoParams? param) =>
+  _i7.Future<_i3.Either<_i18.Failure, List<_i19.User>>> call(
+          _i22.NoParams? param) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [param],
         ),
         returnValue:
-            _i6.Future<_i3.Either<_i15.Failure, List<_i16.User>>>.value(
-                _FakeEither_1<_i15.Failure, List<_i16.User>>(
+            _i7.Future<_i3.Either<_i18.Failure, List<_i19.User>>>.value(
+                _FakeEither_1<_i18.Failure, List<_i19.User>>(
           this,
           Invocation.method(
             #call,
             [param],
           ),
         )),
-      ) as _i6.Future<_i3.Either<_i15.Failure, List<_i16.User>>>);
+      ) as _i7.Future<_i3.Either<_i18.Failure, List<_i19.User>>>);
+}
+
+/// A class which mocks [GetUserPosts].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetUserPosts extends _i1.Mock implements _i23.GetUserPosts {
+  MockGetUserPosts() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.PostRepository get postRepository => (super.noSuchMethod(
+        Invocation.getter(#postRepository),
+        returnValue: _FakePostRepository_3(
+          this,
+          Invocation.getter(#postRepository),
+        ),
+      ) as _i5.PostRepository);
+  @override
+  _i7.Future<_i3.Either<_i18.Failure, List<_i20.Post>>> call(int? param) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [param],
+        ),
+        returnValue:
+            _i7.Future<_i3.Either<_i18.Failure, List<_i20.Post>>>.value(
+                _FakeEither_1<_i18.Failure, List<_i20.Post>>(
+          this,
+          Invocation.method(
+            #call,
+            [param],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i18.Failure, List<_i20.Post>>>);
 }

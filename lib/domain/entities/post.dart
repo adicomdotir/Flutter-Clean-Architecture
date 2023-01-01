@@ -6,7 +6,7 @@ class Post extends Equatable {
   final String title;
   final String body;
 
-  Post({
+  const Post({
     required this.userId,
     required this.id,
     required this.title,
