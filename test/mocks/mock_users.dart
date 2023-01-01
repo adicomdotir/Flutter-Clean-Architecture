@@ -1,6 +1,6 @@
 import 'package:flutter_clean_arch/domain/entities/user.dart';
 
-final users = <User>[
+const users = <User>[
   User(
     id: 1,
     name: 'Test User 1',

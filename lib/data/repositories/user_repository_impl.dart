@@ -3,9 +3,11 @@ import 'package:flutter_clean_arch/core/error/failure.dart';
 import 'package:flutter_clean_arch/core/network/network_info.dart';
 import 'package:flutter_clean_arch/data/data_sources/user_local_data_source.dart';
 import 'package:flutter_clean_arch/data/data_sources/user_remote_data_source.dart';
-import 'package:flutter_clean_arch/data/models/user_model.dart';
+import 'package:flutter_clean_arch/domain/repositories/user_repository.dart';
 
-class UserRepositoryImpl {
+import '../../domain/entities/user.dart';
+
+class UserRepositoryImpl extends UserRepository {
   final UserRemoteDataSource remoteDataSource;
   final UserLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
@@ -16,7 +18,8 @@ class UserRepositoryImpl {
     required this.networkInfo,
   });
 
-  Future<Either<Failure, List<UserModel>>> getUsers() async {
+  @override
+  Future<Either<Failure, List<User>>> getUsers() async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.getUsers();
