@@ -9,7 +9,7 @@ abstract class PostRemoteDataSource {
   Future<List<PostModel>> getUserPosts(int userId);
 }
 
-@RestApi(baseUrl: 'https://jsonplaceholder.typicode.com/')
+@RestApi(baseUrl: 'https://jsonplaceholder.typicode.com')
 abstract class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   factory PostRemoteDataSourceImpl(Dio dio, {String baseUrl}) =
       _PostRemoteDataSourceImpl;

@@ -8,7 +8,7 @@ abstract class UserRemoteDataSource {
   Future<List<UserModel>> getUsers();
 }
 
-@RestApi(baseUrl: 'https://jsonplaceholder.typecode.com/')
+@RestApi(baseUrl: 'https://jsonplaceholder.typicode.com')
 abstract class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   factory UserRemoteDataSourceImpl(Dio dio, {String baseUrl}) =
       _UserRemoteDataSourceImpl;

@@ -13,7 +13,7 @@ class _PostRemoteDataSourceImpl implements PostRemoteDataSourceImpl {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://jsonplaceholder.typicode.com/';
+    baseUrl ??= 'https://jsonplaceholder.typicode.com';
   }
 
   final Dio _dio;

@@ -13,7 +13,7 @@ class _UserRemoteDataSourceImpl implements UserRemoteDataSourceImpl {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://jsonplaceholder.typecode.com/';
+    baseUrl ??= 'https://jsonplaceholder.typicode.com';
   }
 
   final Dio _dio;
